@@ -1,0 +1,1154 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Student Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* LOGIN PAGE */
+
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 35px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .login-box h1 {
+            text-align: center;
+            color: #1d4ed8;
+            margin-bottom: 10px;
+        }
+
+        .login-box .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        .login-box label,
+        .profile-box label {
+            display: block;
+            margin: 12px 0 7px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .login-box input,
+        .profile-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            margin-bottom: 10px;
+        }
+
+        .login-box input:focus,
+        .profile-box input:focus {
+            outline: 2px solid #93c5fd;
+            border-color: #2563eb;
+        }
+
+        .primary-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .demo {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #eff6ff;
+            color: #1e40af;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .error {
+            color: #dc2626;
+            font-size: 13px;
+            margin: 8px 0;
+        }
+
+        /* MAIN APPLICATION */
+
+        .app {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            color: white;
+            padding: 25px 15px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .brand h2 {
+            margin-bottom: 8px;
+        }
+
+        .brand p {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .student-info {
+            text-align: center;
+            padding: 22px 5px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .avatar {
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2563eb;
+            border-radius: 50%;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .student-info p {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+        .menu-title {
+            color: #9ca3af;
+            font-size: 11px;
+            margin: 22px 10px 10px;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 13px 10px;
+            margin: 5px 0;
+            color: #d1d5db;
+            text-align: left;
+            background: transparent;
+            border: none;
+            border-radius: 7px;
+        }
+
+        .sidebar button:hover,
+        .sidebar button.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .sidebar .logout-btn {
+            margin-top: auto;
+            background: #dc2626;
+            color: white;
+            text-align: center;
+        }
+
+        .sidebar .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* MAIN CONTENT */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            min-height: 75px;
+            background: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .topbar h2 {
+            font-size: 20px;
+        }
+
+        .topbar p {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* DASHBOARD CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            padding: 22px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            border-top: 4px solid #2563eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .card:nth-child(2) {
+            border-top-color: #16a34a;
+        }
+
+        .card:nth-child(3) {
+            border-top-color: #9333ea;
+        }
+
+        .card:nth-child(4) {
+            border-top-color: #ea580c;
+        }
+
+        .card .icon {
+            font-size: 25px;
+        }
+
+        .card p {
+            color: #6b7280;
+            margin: 12px 0;
+            font-size: 13px;
+        }
+
+        .card h2 {
+            font-size: 25px;
+        }
+
+        /* PANELS */
+
+        .panel {
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 25px;
+            min-width: 0;
+        }
+
+        .panel h2 {
+            margin-bottom: 20px;
+            font-size: 19px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .dashboard-grid .panel {
+            margin-bottom: 0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 13px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 13px;
+        }
+
+        .info-row span {
+            color: #6b7280;
+        }
+
+        .info-row strong {
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .secondary-btn {
+            padding: 10px 15px;
+            margin-top: 18px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .secondary-btn:hover {
+            background: #dbeafe;
+        }
+
+        /* PROFILE */
+
+        .profile-box {
+            max-width: 600px;
+        }
+
+        .profile-box input:disabled {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        /* COURSES */
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .course-card {
+            background: white;
+            padding: 22px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .course-card .icon {
+            font-size: 28px;
+        }
+
+        .course-card h3 {
+            margin: 14px 0;
+            font-size: 16px;
+        }
+
+        .course-card p {
+            margin-top: 9px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* TABLES */
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f9fafb;
+            color: #4b5563;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .grade {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+
+        .progress {
+            width: 75px;
+            height: 7px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            display: inline-block;
+            margin-right: 7px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #16a34a;
+        }
+
+        .average-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #eff6ff;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .average-box h2 {
+            color: #2563eb;
+            margin: 12px 0;
+            font-size: 32px;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 12px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 1100px) {
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .course-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+            }
+
+            .app {
+                display: none;
+            }
+
+            .app.logged-in {
+                display: block;
+            }
+
+            .sidebar .logout-btn {
+                margin-top: 15px;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .sidebar button {
+                display: inline-block;
+                width: auto;
+                margin: 4px;
+                padding: 10px;
+            }
+
+            .sidebar nav {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .cards,
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 18px;
+            }
+
+            .topbar h2 {
+                font-size: 16px;
+            }
+
+            .page-heading h1 {
+                font-size: 23px;
+            }
+
+            .login-box {
+                padding: 25px;
+            }
+
+            .panel {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+
+    <section class="login-page" id="loginPage">
+        <form class="login-box" id="loginForm">
+
+            <h1>🎓 Student Portal</h1>
+
+            <p class="subtitle">
+                University Management System
+            </p>
+
+            <label for="email">Student Email</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="password">Password</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <p id="errorMessage" class="error" role="alert"></p>
+
+            <button type="submit" class="primary-btn">
+                Login to Portal
+            </button>
+
+            <div class="demo">
+                <strong>Demo Login Credentials</strong>
+                <p>Email: student@university.edu</p>
+                <p>Password: 123456</p>
+            </div>
+
+        </form>
+    </section>
+
+    <!-- MAIN APPLICATION -->
+
+    <div class="app" id="app">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+                <h2>🎓 UniPortal</h2>
+                <p>University Student Portal</p>
+            </div>
+
+            <div class="student-info">
+                <div class="avatar" id="sidebarAvatar">C</div>
+                <h3 id="sidebarName">Charan Teja</h3>
+                <p id="sidebarRoll">Roll No: 23CS001</p>
+            </div>
+
+            <p class="menu-title">MAIN MENU</p>
+
+            <nav id="navigation">
+                <button class="active" data-page="dashboard">
+                    🏠 Dashboard
+                </button>
+
+                <button data-page="profile">
+                    👤 My Profile
+                </button>
+
+                <button data-page="courses">
+                    📚 My Courses
+                </button>
+
+                <button data-page="attendance">
+                    📅 Attendance
+                </button>
+
+                <button data-page="results">
+                    🏆 Results
+                </button>
+            </nav>
+
+            <button class="logout-btn" id="logoutBtn">
+                ↪ Logout
+            </button>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+
+        <div class="main">
+
+            <header class="topbar">
+                <div>
+                    <h2>University Student Portal</h2>
+                    <p>Academic Management System</p>
+                </div>
+
+                <strong id="topbarName">Charan Teja</strong>
+            </header>
+
+            <main class="content">
+
+                <!-- DASHBOARD -->
+
+                <section class="page active" id="dashboard">
+
+                    <div class="page-heading">
+                        <h1>Student Dashboard</h1>
+                        <p>Welcome back, <span id="welcomeName">Charan Teja</span>!</p>
+                    </div>
+
+                    <div class="cards">
+
+                        <div class="card">
+                            <span class="icon">📚</span>
+                            <p>Enrolled Courses</p>
+                            <h2 id="courseCount">5</h2>
+                        </div>
+
+                        <div class="card">
+                            <span class="icon">📅</span>
+                            <p>Overall Attendance</p>
+                            <h2 id="attendanceValue">84%</h2>
+                        </div>
+
+                        <div class="card">
+                            <span class="icon">🏆</span>
+                            <p>Average Marks</p>
+                            <h2 id="averageValue">86.6%</h2>
+                        </div>
+
+                        <div class="card">
+                            <span class="icon">🎓</span>
+                            <p>Academic Year</p>
+                            <h2 id="yearValue">3rd Year</h2>
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-grid">
+
+                        <div class="panel">
+                            <h2>Student Information</h2>
+
+                            <div class="info-row">
+                                <span>Name</span>
+                                <strong id="dashboardName">Charan Teja</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Roll Number</span>
+                                <strong>23CS001</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Department</span>
+                                <strong>Computer Science</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Academic Year</span>
+                                <strong>3rd Year</strong>
+                            </div>
+
+                            <button class="secondary-btn" data-goto="profile">
+                                View Profile
+                            </button>
+                        </div>
+
+                        <div class="panel">
+                            <h2>Recent Results</h2>
+
+                            <div class="info-row">
+                                <span>Machine Learning</span>
+                                <strong>88 / 100</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Data Structures</span>
+                                <strong>92 / 100</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Database Management</span>
+                                <strong>85 / 100</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Operating Systems</span>
+                                <strong>78 / 100</strong>
+                            </div>
+
+                            <button class="secondary-btn" data-goto="results">
+                                View All Results
+                            </button>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- PROFILE -->
+
+                <section class="page" id="profile">
+
+                    <div class="page-heading">
+                        <h1>My Profile</h1>
+                        <p>View and update your student information.</p>
+                    </div>
+
+                    <form class="panel profile-box" id="profileForm">
+
+                        <h2>Personal Information</h2>
+
+                        <label for="studentName">Full Name</label>
+                        <input type="text" id="studentName" value="Charan Teja" required>
+
+                        <label for="studentRoll">Roll Number</label>
+                        <input type="text" id="studentRoll" value="23CS001" disabled>
+
+                        <label for="studentDepartment">Department</label>
+                        <input type="text" id="studentDepartment" value="Computer Science" disabled>
+
+                        <label for="studentYear">Academic Year</label>
+                        <input type="text" id="studentYear" value="3rd Year" disabled>
+
+                        <label for="studentEmail">Email Address</label>
+                        <input type="email" id="studentEmail" value="student@university.edu" disabled>
+
+                        <label for="studentPhone">Phone Number</label>
+                        <input type="tel" id="studentPhone" value="9876543210" required>
+
+                        <button type="submit" class="primary-btn">
+                            Save Changes
+                        </button>
+
+                    </form>
+
+                </section>
+
+                <!-- COURSES -->
+
+                <section class="page" id="courses">
+
+                    <div class="page-heading">
+                        <h1>My Courses</h1>
+                        <p>View your enrolled courses and faculty members.</p>
+                    </div>
+
+                    <div class="course-grid">
+
+                        <div class="course-card">
+                            <span class="icon">📘</span>
+                            <h3>Machine Learning</h3>
+                            <p>Course Code: CS301</p>
+                            <p>Faculty: Dr. Rao</p>
+                            <p>Credits: 4</p>
+                        </div>
+
+                        <div class="course-card">
+                            <span class="icon">📘</span>
+                            <h3>Data Structures</h3>
+                            <p>Course Code: CS302</p>
+                            <p>Faculty: Prof. Kumar</p>
+                            <p>Credits: 4</p>
+                        </div>
+
+                        <div class="course-card">
+                            <span class="icon">📘</span>
+                            <h3>Database Management</h3>
+                            <p>Course Code: CS303</p>
+                            <p>Faculty: Dr. Priya</p>
+                            <p>Credits: 3</p>
+                        </div>
+
+                        <div class="course-card">
+                            <span class="icon">📘</span>
+                            <h3>Operating Systems</h3>
+                            <p>Course Code: CS304</p>
+                            <p>Faculty: Prof. Sharma</p>
+                            <p>Credits: 3</p>
+                        </div>
+
+                        <div class="course-card">
+                            <span class="icon">📘</span>
+                            <h3>Computer Networks</h3>
+                            <p>Course Code: CS305</p>
+                            <p>Faculty: Dr. Reddy</p>
+                            <p>Credits: 3</p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- ATTENDANCE -->
+
+                <section class="page" id="attendance">
+
+                    <div class="page-heading">
+                        <h1>My Attendance</h1>
+                        <p>Check subject-wise attendance details.</p>
+                    </div>
+
+                    <div class="panel">
+                        <div class="table-wrap">
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Attended</th>
+                                        <th>Total Classes</th>
+                                        <th>Attendance</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="attendanceTable"></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- RESULTS -->
+
+                <section class="page" id="results">
+
+                    <div class="page-heading">
+                        <h1>Examination Results</h1>
+                        <p>View your subject-wise marks and grades.</p>
+                    </div>
+
+                    <div class="panel">
+
+                        <div class="table-wrap">
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Maximum Marks</th>
+                                        <th>Marks Obtained</th>
+                                        <th>Percentage</th>
+                                        <th>Grade</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="resultsTable"></tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="average-box">
+                            <h3>Overall Average Marks</h3>
+                            <h2 id="resultAverage">86.6%</h2>
+                            <p>Based on the displayed subject marks</p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </main>
+
+            <footer class="footer">
+                ©️ 2026 University Student Portal | All Rights Reserved
+            </footer>
+
+        </div>
+
+    </div>
+
+    <script>
+        // DEMO LOGIN CREDENTIALS
+        const validEmail = "student@university.edu";
+        const validPassword = "123456";
+
+        // STUDENT DATA
+        const student = {
+            name: "Charan Teja",
+            roll: "23CS001",
+            department: "Computer Science",
+            year: "3rd Year",
+            email: "student@university.edu",
+            phone: "9876543210"
+        };
+
+        // ATTENDANCE DATA
+        const attendance = [
+            { subject: "Machine Learning", attended: 42, total: 50 },
+            { subject: "Data Structures", attended: 45, total: 50 },
+            { subject: "Database Management", attended: 38, total: 45 },
+            { subject: "Operating Systems", attended: 40, total: 50 },
+            { subject: "Computer Networks", attended: 36, total: 40 }
+        ];
+
+        // EXAMINATION RESULTS
+        const results = [
+            { subject: "Machine Learning", marks: 88 },
+            { subject: "Data Structures", marks: 92 },
+            { subject: "Database Management", marks: 85 },
+            { subject: "Operating Systems", marks: 78 },
+            { subject: "Computer Networks", marks: 90 }
+        ];
+
+        const $ = id => document.getElementById(id);
+
+        // CALCULATE ATTENDANCE
+        const attendedTotal = attendance.reduce(
+            (sum, item) => sum + item.attended, 0
+        );
+
+        const classesTotal = attendance.reduce(
+            (sum, item) => sum + item.total, 0
+        );
+
+        const overallAttendance = (
+            attendedTotal / classesTotal * 100
+        ).toFixed(1);
+
+        // CALCULATE AVERAGE MARKS
+        const averageMarks = (
+            results.reduce((sum, item) => sum + item.marks, 0) /
+            results.length
+        ).toFixed(1);
+
+        // LOGIN
+        $("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = $("email").value.trim().toLowerCase();
+            const password = $("password").value;
+
+            if (email === validEmail && password === validPassword) {
+                $("loginPage").style.display = "none";
+                $("app").style.display = "block";
+                $("app").classList.add("logged-in");
+                $("errorMessage").textContent = "";
+
+                showPage("dashboard");
+            } else {
+                $("errorMessage").textContent =
+                    "Invalid email or password. Please try again.";
+            }
+        });
+
+        // PAGE NAVIGATION
+        function showPage(pageId) {
+            document.querySelectorAll(".page").forEach(page => {
+                page.classList.remove("active");
+            });
+
+            $(pageId).classList.add("active");
+
+            document.querySelectorAll("#navigation button").forEach(button => {
+                button.classList.toggle(
+                    "active",
+                    button.dataset.page === pageId
+                );
+            });
+        }
+
+        // SIDEBAR NAVIGATION
+        document.querySelectorAll("#navigation button").forEach(button => {
+            button.addEventListener("click", function() {
+                showPage(this.dataset.page);
+            });
+        });
+
+        // DASHBOARD SHORTCUTS
+        document.querySelectorAll("[data-goto]").forEach(button => {
+            button.addEventListener("click", function() {
+                showPage(this.dataset.goto);
+            });
+        });
+
+        // DISPLAY ATTENDANCE
+        $("attendanceTable").innerHTML = attendance.map(item => {
+            const percentage = (
+                item.attended / item.total * 100
+            ).toFixed(1);
+
+            const good = Number(percentage) >= 75;
+
+            return `
+                <tr>
+                    <td>${item.subject}</td>
+                    <td>${item.attended}</td>
+                    <td>${item.total}</td>
+                    <td>
+                        <span class="progress">
+                            <span class="progress-fill"
+                                style="display:block;width:${percentage}%">
+                            </span>
+                        </span>
+                        ${percentage}%
+                    </td>
+                    <td>
+                        <span class="badge ${good ? "" : "warning"}">
+                            ${good ? "Good" : "Low"}
+                        </span>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+
+        // DISPLAY RESULTS
+        function getGrade(marks) {
+            if (marks >= 90) return "A+";
+            if (marks >= 80) return "A";
+            if (marks >= 70) return "B";
+            if (marks >= 60) return "C";
+            return "D";
+        }
+
+        $("resultsTable").innerHTML = results.map(item => `
+            <tr>
+                <td>${item.subject}</td>
+                <td>100</td>
+                <td>${item.marks}</td>
+                <td>${item.marks}%</td>
+                <td><span class="grade">${getGrade(item.marks)}</span></td>
+            </tr>
+        `).join("");
+
+        // UPDATE DASHBOARD VALUES
+        $("attendanceValue").textContent = overallAttendance + "%";
+        $("averageValue").textContent = averageMarks + "%";
+        $("resultAverage").textContent = averageMarks + "%";
+        $("courseCount").textContent = attendance.length;
+
+        // UPDATE PROFILE
+        $("profileForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            student.name = $("studentName").value.trim();
+            student.phone = $("studentPhone").value.trim();
+
+            $("sidebarName").textContent = student.name;
+            $("topbarName").textContent = student.name;
+            $("welcomeName").textContent = student.name;
+            $("dashboardName").textContent = student.name;
+
+            $("sidebarAvatar").textContent =
+                student.name.charAt(0).toUpperCase();
+
+            alert("Student profile updated successfully!");
+        });
+
+        // LOGOUT
+        $("logoutBtn").addEventListener("click", function() {
+            $("app").style.display = "none";
+            $("app").classList.remove("logged-in");
+            $("loginPage").style.display = "flex";
+
+            $("loginForm").reset();
+            $("errorMessage").textContent = "";
+
+            showPage("dashboard");
+        });
+    </script>
+
+</body>
+</html>
+```
